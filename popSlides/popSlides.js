@@ -11,6 +11,8 @@ var popSlides_path = (function(){
 	//extend jQuery
 	$.fn.popSlides = function(options) {
 		
+		var path = popSlides_path;
+		
 		var defaults = {
 			max_width: 800,
 			max_height: 600,
@@ -19,38 +21,52 @@ var popSlides_path = (function(){
 			force_square: false,
 			play: false,
 			play_time: 3000,
-			path: popSlides_path
+			path: path
 		};
 		
 		var options = $.extend(defaults, options);
 		
 		//global elements
-		var layer1 = make('div'),
-			layer2 = make('div');
-		
-		$(layer1).css({
-			'z-index':903,
-			'display':'none',
-			'position':'fixed',
-			'top':0,
-			'left':0,
-			'right':0,
-			'bottom':0
-		});
-		$(layer2).css({
-			'z-index':902,
-			'background-color':'#000',
-			'opacity':'0.7',
-			'display':'none',
-			'position':'fixed',
-			'top':0,
-			'left':0,
-			'right':0,
-			'bottom':0
-		});
-		
-		$('body').append(layer1);
-		$('body').append(layer2);
+		var layer1,
+			layer2;
+			
+		if (get('popSlides_layer1')==null) {
+			
+			layer1 = make('div'),
+			layer2 = make('div');	
+			layer1.setAttribute('id','popSlides_layer1');
+			layer2.setAttribute('id','popSlides_layer2');
+			
+			$(layer1).css({
+				'z-index':903,
+				'display':'none',
+				'position':'fixed',
+				'top':0,
+				'left':0,
+				'right':0,
+				'bottom':0
+			});
+			$(layer2).css({
+				'z-index':902,
+				'background-color':'#000',
+				'opacity':'0.7',
+				'display':'none',
+				'position':'fixed',
+				'top':0,
+				'left':0,
+				'right':0,
+				'bottom':0
+			});
+			
+			$('body').append(layer1);
+			$('body').append(layer2);
+			
+		} else {
+			
+			layer1 = get('popSlides_layer1');
+			layer2 = get('popSlides_layer2');
+			
+		}
 		
 		//Interate through all image groups
 		this.each(function() {
