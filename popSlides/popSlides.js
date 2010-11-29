@@ -382,6 +382,7 @@ var popSlides_path = (function(){
 			}
 			
 			function pop(id) {
+				play = options.play;
 				$(layer2).fadeTo(300, 0.6);
 				$(layer1).show();
 				popshow(id);
@@ -470,6 +471,8 @@ var popSlides_path = (function(){
 			
 			function fade() {
 				clearTimeout(timer);
+				options.play = play;
+				play = false;
 				$(bar).stop();
 				$(bar).width(0);
 				$(layer1).fadeOut(300, function() {
