@@ -8,6 +8,8 @@ var popSlides_path = (function(){
 //The jQuery Plugin wrapper
 (function($) {
 	
+
+	
 	//extend jQuery
 	$.fn.popSlides = function(options) {
 		
@@ -116,28 +118,9 @@ var popSlides_path = (function(){
 				
 				//create thumbnails
 				obj.html("");
-				var thumbs_num = options.single_thumbnail ? 1 : thumbs.length;
-				if ( options.text_label ) {
-					var a = make('a')
-					a.id = "popSlides_link_01"
-					$(a).click(function() {
-							pop(parseId(this.id));
-					});
-					$(a).css({
-							'cursor': 'pointer',
-							'text-decoration':'underline'
-					});
-					$(a).append(options.text_label)
-					
-					if(obj.is('ul')){
-							obj.css({'list-style':'none'})
-							var li = make('li');
-							$(li).append(a);
-							obj.append(li);
-					} else {
-						obj.append(a);
-					}	
-				} else {
+				
+				if ( options.text_label == false ) {
+					var thumbs_num = options.single_thumbnail ? 1 : thumbs.length;
 					for (i=0;i<thumbs_num;i++) {
 						var a = make('a');
 						a.id = i+1<10 ? "popSlides_link_0"+(i+1) : "popSlides_link_"+(i+1);
@@ -156,6 +139,32 @@ var popSlides_path = (function(){
 							obj.append(a);
 						}
 					}
+					// IE 8 really doesn't like unatached thumbs
+					unatached_thumbs_ie8_fix(1, thumbs)
+						
+
+				} else {
+					var a = make('a');
+					a.id = "popSlides_link_01";
+					$(a).click(function() {
+							pop(parseId(this.id));
+					});
+					$(a).css({
+							'cursor': 'pointer',
+							'text-decoration':'underline'
+					});
+					$(a).append(options.text_label);
+					
+					if(obj.is('ul')){
+							obj.css({'list-style':'none'});
+							var li = make('li');
+							$(li).append(a);
+							obj.append(li);
+					} else {
+						obj.append(a);
+					}
+					// IE 8 really doesn't like unatached thumbs
+					unatached_thumbs_ie8_fix(0, thumbs)
 				}
 				
 				//create images for popup
@@ -561,6 +570,13 @@ var popSlides_path = (function(){
 		
 		function parseId(id) {
 			return id.slice(id.length-2);
+		}
+		function unatached_thumbs_ie8_fix (start_index, thumb_arr) {
+			for (i=start_index; i<thumb_arr.length; i++){
+				var a = make('a');
+				$(a).append(thumb_arr[i]);
+				delete a;
+			}
 		}
 		
 	};
