@@ -29,6 +29,7 @@ var popSlides_path = (function(){
 			image_number: true,
 			caption_position: 'bottom',
 			text_label: false,
+			image_label: false,
 			caption_size: '11px',
 			path: path
 		};
@@ -119,7 +120,7 @@ var popSlides_path = (function(){
 				//create thumbnails
 				obj.html("");
 				
-				if ( options.text_label == false ) {
+				if ( (! options.text_label) && (! options.image_label)){
 					var thumbs_num = options.single_thumbnail ? 1 : thumbs.length;
 					for (i=0;i<thumbs_num;i++) {
 						var a = make('a');
@@ -153,7 +154,14 @@ var popSlides_path = (function(){
 							'cursor': 'pointer',
 							'text-decoration':'underline'
 					});
-					$(a).append(options.text_label);
+					
+					if (options.text_label) {
+						$(a).append(options.text_label);
+					} else if (options.image_label) {
+						var img = new Image();
+						img.src = options.image_label;
+						$(a).append(img);
+					}
 					
 					if(obj.is('ul')){
 							obj.css({'list-style':'none'});
@@ -163,6 +171,7 @@ var popSlides_path = (function(){
 					} else {
 						obj.append(a);
 					}
+					
 					// IE 8 really doesn't like unatached thumbs
 					unatached_thumbs_ie8_fix(0, thumbs)
 				}
@@ -445,7 +454,7 @@ var popSlides_path = (function(){
 					img.width = w*mh/h;
 				}
 				if (options.caption_position == 'right' ){
-					w = img.width*2;
+					w = img.width*2 + 20;
 				} else {
 					w = img.width;
 				}
