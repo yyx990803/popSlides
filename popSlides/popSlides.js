@@ -165,6 +165,9 @@ var popSlides_path = (function(){
 					
 					if(obj.is('ul')){
 							obj.css({'list-style':'none'});
+							obj.css({'text-decoration':'none'});
+							obj.css({'padding':'0px'});
+							obj.css({'margin':'0px'});
 							var li = make('li');
 							$(li).append(a);
 							obj.append(li);
