@@ -8,8 +8,6 @@ var popSlides_path = (function(){
 //The jQuery Plugin wrapper
 (function($) {
 	
-
-	
 	//extend jQuery
 	$.fn.popSlides = function(options) {
 		
@@ -140,10 +138,6 @@ var popSlides_path = (function(){
 							obj.append(a);
 						}
 					}
-					// IE 8 really doesn't like unatached thumbs
-					unatached_thumbs_ie8_fix(1, thumbs)
-						
-
 				} else {
 					var a = make('a');
 					a.id = "popSlides_link_01";
@@ -175,8 +169,6 @@ var popSlides_path = (function(){
 						obj.append(a);
 					}
 					
-					// IE 8 really doesn't like unatached thumbs
-					unatached_thumbs_ie8_fix(0, thumbs)
 				}
 				
 				//create images for popup
@@ -428,17 +420,20 @@ var popSlides_path = (function(){
 			
 			function pop(id) {
 				play = options.play;
-				$(layer2).fadeTo(300, 0.6);
+				$(layer2).fadeTo(300, 0.6, function() {popshow(id);});
 				$(layer1).show();
-				popshow(id);
 			}
 			
 			function popshow(id) {
 				var img = popimgs[parseInt(id, 10)-1];
-				$(img).css('visibility','hidden');
-				$(img).show();
-				$(popup).css('visibility','hidden');
-				$(popup).show();
+				$(img).css({
+					'visibility':'hidden',
+					'display':'block'
+				});
+				$(popup).css({
+					'visibility':'hidden',
+					'display':'block'
+				});
 				
 				if (img.width==0 || !img.complete) {
 					setTimeout(function() {popshow(id);}, 100);
@@ -452,7 +447,7 @@ var popSlides_path = (function(){
 					img.width = mw;
 					img.height = h*mw/w;
 				}
-				if (h>mh) {
+				if (img.height>mh) {
 					img.height = mh;
 					img.width = w*mh/h;
 				}
@@ -582,13 +577,6 @@ var popSlides_path = (function(){
 		
 		function parseId(id) {
 			return id.slice(id.length-2);
-		}
-		function unatached_thumbs_ie8_fix (start_index, thumb_arr) {
-			for (i=start_index; i<thumb_arr.length; i++){
-				var a = make('a');
-				$(a).append(thumb_arr[i]);
-				delete a;
-			}
 		}
 		
 	};
