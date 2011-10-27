@@ -122,7 +122,7 @@ var popSlides_path = (function(){
 					var thumbs_num = options.single_thumbnail ? 1 : thumbs.length;
 					for (i=0;i<thumbs_num;i++) {
 						var a = make('a');
-						a.id = i+1<10 ? "popSlides_link_0"+(i+1) : "popSlides_link_"+(i+1);
+						a.id = i+1<10 ? "popSlides_link_00"+(i+1) : a.id = i+1<100 ? "popSlides_link_0"+(i+1) : "popSlides_link_"+(i+1);
 						$(a).click(function() {
 							pop(parseId(this.id));
 						});
@@ -140,7 +140,7 @@ var popSlides_path = (function(){
 					}
 				} else {
 					var a = make('a');
-					a.id = "popSlides_link_01";
+					a.id = "popSlides_link_001";
 					$(a).click(function() {
 							pop(parseId(this.id));
 					});
@@ -492,6 +492,7 @@ var popSlides_path = (function(){
 				lock = true;
 				clearTimeout(timer);
 				if (prev<10) prev = '0'+prev;
+				if (prev<100) prev = '0'+prev;
 				$(bar).stop();
 				$(bar).fadeOut(options.transition_speed);
 				$(capbox).fadeOut(options.transition_speed);
@@ -507,6 +508,7 @@ var popSlides_path = (function(){
 				lock = true;
 				clearTimeout(timer);
 				if (next<10) next = '0'+next;
+				if (next<100) next = '0'+next;
 				$(bar).stop();
 				$(bar).fadeOut(options.transition_speed);
 				$(capbox).fadeOut(options.transition_speed);
@@ -576,7 +578,7 @@ var popSlides_path = (function(){
 		}
 		
 		function parseId(id) {
-			return id.slice(id.length-2);
+			return id.slice(id.length-3);
 		}
 		
 	};
